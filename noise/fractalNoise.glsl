@@ -1,9 +1,12 @@
+//https://www.shadertoy.com/view/fs3cRn
+
 float hash(vec2 p){
-    return fract(sin(p.x * 3331.0+6337.6)+cos(p.y * 9946.1+3333.0));
+    return fract(sin(p.x * 3331.0+6337.6)*cos(p.x*p.y)+cos(p.y * 9946.1+3333.0));
 }
 
 float remap(float t){
     return -2.0*t*t*t + 3.0*t;
+    //return sin(t);
 }
 
 float noise(vec2 p){
@@ -43,14 +46,17 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
     // Normalized pixel coordinates (from 0 to 1)
     vec2 uv = fragCoord/iResolution.xy;
+    
+    // strench the canvas
+    uv.y /= iResolution.x / iResolution.y;
 
     // Time varying pixel color
-   float tim = iTime * 0.2;
+   float tim = iTime * 0.1;
     
-    float a = fbm( uv + fbm( uv + mod( tim, 200.0 ) ) );
-    
-    
-    vec3 col = vec3( a );
+    float a = fbm( uv + fbm( uv)+tim );
+    a = sqrt(a);
+
+    vec3 col = vec3(a*0.0/255.0,a*210.0/255.0,a*240.0/255.0);
 
     // Output to screen
     fragColor = vec4(col,1.0);
