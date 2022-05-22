@@ -1,6 +1,6 @@
 //https://www.shadertoy.com/view/Nd3cR4
 
-#define delta 0.000001
+#define delta 0.00001
 
 float differentiate(float t0,float v0,float v1){
    float t1 = t0 + delta;
